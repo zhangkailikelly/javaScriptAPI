@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="./jquery.js"></script>
+</head>
+<body>
+	
+	<script>
+try{
+console.log(时代发生的)
+
+}catch(e){
+	console.log(e)
+}
+
+function timeout(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function asyncPrint(value, ms) {
+  await timeout(ms);
+  console.log(value)
+}
+
+asyncPrint('hello world', 3000);
+
+
+
+		// var p1=new Promise(function(resolve,reject){
+		// 	setTimeout(function(){resolve(33333)},2000)
+		// 	setTimeout(reject(new Error("fail")),6000)
+
+		// })
+
+		function p(a){
+			return new Promise(function(resolve,reject){
+				resolve(a)
+			})
+		}
+
+//p1传入p2时，当p2执行resolve函数时，p2的状态由p1决定，为reject时，如果p1为resolve则p2状态为reject，p1为reject时，会报错
+//.catch()方法也是返回一个promise
+var p1=new Promise(function(resolve,reject){
+	setTimeout(()=>resolve("213"),3000)
+})
+var p2=new Promise(function(resolve,reject){
+	setTimeout(()=>reject(p1),1000)
+	
+})
+
+p2.then(result=>console.log(111,result)).catch(err=>console.log(err,999)).then(()=>{
+	console.log(333333333)
+})
+
+//then函数永远返回promise,如果传入的是非函数,则返回调用then的promise对象，
+//如果传入的函数返回值是个promise对象，则返回此promise对象，否则将此返回值
+//作为新的promise的value值，返回新的promise。
+		function then(cb,b){
+			if(typeof(cb)!="function"){
+				//如果不是函数，返回之前的promise对象
+			return this;
+			}else{
+				//如果回调函数return 不是一个promise
+				if("[object Promise]"!=Object.prototype.toString.call(cb())){
+					 this.PromiseValue=cb();
+					 return this;
+				}
+				return cb();
+			}
+
+		}
+
+//Promise.all
+var promise=[2,5,6,9].map((x,y)=>{return new Promise(function(resolve,reject){
+	setTimeout(function(){
+if(y==1){
+	reject(2*x)
+}
+		resolve(2*x)},2000)
+})})
+//所有的都是resolve才执行then里的函数，否则就执行catch
+Promise.all(promise).then((x)=>{
+	console.log(x)
+}).catch(x=>console.log(x))
+
+
+//Promise.race()
+//传入多个promise对象,那个先改变状态,p的状态就是哪个
+var p=Promise.race([
+	new Promise((resolve,reject)=>{
+	setTimeout(()=>resolve(22),2000)
+}),
+	new Promise((resolve,reject)=>{
+	setTimeout(()=>reject(1),4000)
+})])
+p.then(x=>console.log(x,121212)).catch(y=>console.log(y,232323))
+
+
+//Promise.resolve将异步对象装化为promise对象
+//1:参数如果是Promise实例,原样返回
+//2:参数是具有then方法的对象,将此对象转换为promise对象,并立即调用then方法
+//3:参数不是对象,则将作为参数传入新的promise对象中的resolve函数内
+//4:不传参数,则直接Promise.resolve()产生一个Promise实例
+//eg:
+var resolves=Promise.resolve($.ajax({}));
+//等价于
+new Promise(resolve=>resolve($.ajax({})));
+	console.log(Promise.resolve(setTimeout(function(){console.log("我是promise.resolve")},3000)).then(()=>{console.log("我是转化过的then方法")}))
+
+
+
+//Promise.reject()将异步对象转化为promise对象,状态为reject,传入的参数会作为reject的理由
+//eg:
+var thenable={
+	then:function(resolve,reject){
+		reject("我是promise.reject转换的")
+	}
+};
+Promise.reject(thenable).catch(x=>{console.log(x)})
+
+//Promise.finally结束就会执行
+var fin=new Promise(resolve=>{
+	resolve("0001")
+})
+fin.then(x=>console.log(x)).finally(()=>{alert(33333)})
+//------------------------------------------------
+//
+//
+//componentDidMount() {
+
+        var _this = this;
+        //通过pramas获取id值
+        var _id = window.location.search.slice(1);
+        console.log("我是ID",_id);
+        $.ajax({
+            url: "/sport/details?id=" + _id,
+            type: "get",
+            success: function (data) {
+                console.log(1111);
+                console.log(data);
+                var d1imgNum, d1imgUrls, d1id, d1name, d1linkmanphone, d1city, d1district, d1address, data2, weeks;
+                if (data && data.data1) {
+                    if (Array.isArray(data.data1.imgurl)) {
+                        d1imgNum = data.data1.imgurl.length;
+                        d1imgUrls = data.data1.imgurl;
+
+                    }
+                    d1id = data.data1.id;
+                    d1name = data.data1.name;
+                    d1linkmanphone = data.data1.linkmanphone
+                    d1city = data.data1.city
+                    d1address = data.data1.address
+                    d1district = data.data1.district
+                }
+                if (data && data.data2 && Array.isArray(data.data2)) {
+                    data2 = data.data2;
+                }
+                if (data && data.weeks && Array.isArray(data.weeks)) {
+                    weeks = data.weeks;
+                }
+                _this.setState({
+                    d1imgNum: d1imgNum || _this.state.d1imgNum,
+                    d1imgUrls: d1imgUrls || this.state.d1imgUrls,
+                    d1id: d1id || this.state.d1id,
+                    d1address: d1address || this.state.d1address,
+                    d1district: d1district || this.state.district,
+                    d1city: d1city || this.state.d1city,
+                    d1name: d1name || this.state.d1name,
+                    d1linkmanphone: d1linkmanphone || this.state.d1linkmanphone,
+                    data2: data2 || this.state.data2,
+                    weeks: weeks || this.state.weeks
+                })
+            }
+        })
+    }
+	</script>
+
+
+
+
+</body>
+</html>
