@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	//注意:this指向不同
+		var obj={
+			a:function(){
+				(console.log(this))
+			},
+			b:()=>{console.log(this)}
+		};
+obj.a();
+obj.b();
+
+	</script>
+</body>
+</html>

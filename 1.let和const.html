@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>let和const</title>
+</head>
+
+<body>
+    <script>
+    //let const 具有块级作用域
+    {
+        var a = 9;
+        let b = 10;
+        const c = 20;
+    }
+    try {
+        console.log(a);
+        console.log(b);
+        console.log(c);
+    } catch (err) {
+        console.log(err)
+    }
+
+
+    //可在此种情况下代替闭包
+    var arr1 = [];
+    var arr2 = [];
+    for (var i = 0; i < 4; i++) {
+		arr1[i]=function(){console.log(i)}
+	}
+
+	for(let i=0;i<4;i++){
+		arr2[i]=function(){console.log(i)}
+	}
+	arr1[2]();
+	arr2[2]();
+
+
+	//let consot 不具有变量提升
+	try{	
+		console.log(t1)
+		console.log(t3)
+		console.log(t2)
+
+		var t1=3;
+		const t3=5;
+		let t2=4;
+		
+		}catch(err){
+				console.log(err)
+		}
+		
+
+
+		//let const 不允许重复声明
+		{
+			//报错
+			//var a=3;
+			//const a=4;
+			
+			//报错
+			//var a=3;
+			//let a=4;
+				
+			function a(b){
+				//报错,相当于 var b=b; let b;
+					let b;
+			}
+
+			//
+		}
+			
+    </script>
+</body>
+
+</html>

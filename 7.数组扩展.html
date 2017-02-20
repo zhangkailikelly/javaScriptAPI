@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		//Array.from(类数组)==>真实数组    !!具有length属性的对象成为类数组
+		//Array.from(数组)==>新数组
+		Array.from({length:3})//==>[undefined,undefined,undefined]
+		Array.from(new Set([2,4]))//==>[2,4]
+
+		//浏览器端暂不支持,node支持
+		var arr1=[2,3,4];
+		var arr2=[5,6,8];
+		var arr3=[...arr1,...arr2];
+		console.log(arr3)
+
+	</script>
+</body>
+</html>

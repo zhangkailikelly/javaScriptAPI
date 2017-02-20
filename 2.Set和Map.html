@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	//可用于数组去重
+		var arr1=[10,2,3,4,5,6,4,3,2,5];
+		console.log([...new Set(arr1)])
+
+
+	//数组的map 方法，将每个返回的实例组成一个数组，如果没有则为undefined
+	var arr2=[2,4,55,6];
+	var arr3=arr2.map(k=>k%2>0?k:undefined)
+	console.log(arr3)
+	</script>
+</body>
+</html>

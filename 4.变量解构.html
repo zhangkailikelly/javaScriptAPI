@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var obj={
+			a:1,
+			b:2,
+			c:3
+		}
+		let {a,b,c,d="默认值"}=obj;//默认值生效的条件是，对象的属性值严格等于undefined。
+		console.log(a,d)
+
+
+		let x;//如果右边是非变量，则需要圆括号括起来
+		({x}={x:10});
+		console.log(x)
+
+
+		//字符串的解构赋值,暂支持node端
+		//const [a,b,c,d,e]="hello";
+		//console.log(a)
+	</script>
+</body>
+</html>
